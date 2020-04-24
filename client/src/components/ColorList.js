@@ -6,7 +6,7 @@ const initialColor = {
   code: { hex: "" }
 };
 
-const ColorList = ({ colors, updateColors }) => {
+const ColorList = ({ props, colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
@@ -17,18 +17,25 @@ const ColorList = ({ colors, updateColors }) => {
   };
 
   const saveEdit = e => {
-    e.preventDefault();
+    // e.preventDefault();
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    axiosWithAuth()
+    .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+    .then(res => {props.history.push('/colors')
+  })
+    .catch(err => console.log(err, "sorry, could not edit color"));
   };
 
   const deleteColor = color => {
     // make a delete request to delete this color
     axiosWithAuth()
     .delete(`http://localhost:5000/api/colors/${color.id}`)
-    .then(res => console.log("response from .delete", res))
-    .catch(err => console.log(err, "sorry, could not delete recipe"));
+    .then(res => {
+      props.history.push('/colors');
+    })
+    .catch(err => console.log(err, "sorry, could not delete color"));
   };
 
   return (
