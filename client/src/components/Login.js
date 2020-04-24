@@ -42,7 +42,7 @@ login = e => {
     .post('http://localhost:5000/api/login', this.state.credentials)
     .then(res => {
         localStorage.setItem('token', JSON.stringify(res.data.payload));
-        this.props.history.push('/bubblespage');
+        this.props.history.push('/colors');
         this.setState({
             isLoading: true
     })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pack } from "@potion/layout";
-import { Svg, Circle } from "@potion/element";
+import { Svg, LineRadial } from "@potion/element";
 
 const Bubbles = ({ colors }) => {
   const [bubbleData, setBubbleData] = useState([]);
@@ -31,13 +31,24 @@ const Bubbles = ({ colors }) => {
               .map(({ x, y, r, key }, i) => {
                 if (i < colors.length) {
                   return (
-                    <Circle
-                      key={key}
-                      cx={x}
-                      cy={y}
-                      r={r}
-                      fill={colors[i].code.hex}
-                    />
+                    <LineRadial
+                    radius={50}
+                    angle={({ angle }) => angle}
+                    fill="none"
+                    stroke='black'
+                    points={[
+                      { angle: 0 },
+                      { angle: Math.PI * 0.25 },
+                      { angle: Math.PI * 0.5 },
+                      { angle: Math.PI * 0.75 },
+                      { angle: Math.PI },
+                      { angle: Math.PI * 1.25 },
+                      { angle: Math.PI * 1.5 },
+                      { angle: Math.PI * 1.75 },
+                      { angle: Math.PI * 2 },
+                    ]}
+                    strokeWidth={4}
+                  />
                   );
                 }
                 return null;

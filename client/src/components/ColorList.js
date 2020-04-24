@@ -29,6 +29,7 @@ const ColorList = ({ props, colors, updateColors }) => {
   };
 
   const deleteColor = color => {
+    
     // make a delete request to delete this color
     axiosWithAuth()
     .delete(`http://localhost:5000/api/colors/${color.id}`)
@@ -36,6 +37,16 @@ const ColorList = ({ props, colors, updateColors }) => {
       props.history.push('/colors');
     })
     .catch(err => console.log(err, "sorry, could not delete color"));
+  };
+
+  const addColor = color => {
+    // make a delete request to delete this color
+    axiosWithAuth()
+    .post(`http://localhost:5000/api/colors/`, color)
+    .then(res => {
+      props.history.push('/colors');
+    })
+    .catch(err => console.log(err, "sorry, could not add color"));
   };
 
   return (
@@ -93,7 +104,40 @@ const ColorList = ({ props, colors, updateColors }) => {
       )}
       <div className="spacer" />
       {/* stretch - build another form here to add a color */}
+      <h2>Add Color</h2>
+      <form onSubmit={addColor}>
+          <legend>edit color</legend>
+          <label>
+            color name:
+            <input
+              onChange={e =>
+                setColorToEdit({ ...colorToEdit, color: e.target.value })
+              }
+              value={colorToEdit.color}
+            />
+          </label>
+          <label>
+            hex code:
+            <input
+              onChange={e =>
+                setColorToEdit({
+                  ...colorToEdit,
+                  code: { hex: e.target.value }
+                })
+              }
+              value={colorToEdit.code.hex}
+            />
+          </label>
+          <div className="button-row">
+            <button type="submit">save</button>
+            <button onClick={() => setEditing(false)}>cancel</button>
+          </div>
+        </form>
+      
     </div>
+
+
+
   );
 };
 
